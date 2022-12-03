@@ -22,9 +22,8 @@ UPPER = 26
 
 for i in range(1,27):
   priority[abc[i]] = i
-print(priority)
-print()
-f = open("example")
+
+f = open("input")
 file = f.read()
 racks = []
 racks_list = []
@@ -34,6 +33,7 @@ racks_in_threes = []
 rack_id = 0
 total_sum_in_rack = 0
 elf_groups = {}
+total_badge_sum = 0
 
 for rack in file:
   tmp = 0
@@ -41,6 +41,7 @@ for rack in file:
     shared = ""
     first_rack = racks_list[:math.floor(len(racks_list)/2)]
     second_rack = racks_list[math.floor(len(racks_list)/2):]
+    racks_in_threes_list.append(first_rack + second_rack)
     [shared := element for element in second_rack if element in first_rack] 
     if (shared in priority):
       tmp = priority[shared]
@@ -56,16 +57,25 @@ for rack in file:
       })
     total_sum_in_rack += tmp
     rack_id += 1
-    if rack_id % 3 == 0 and rack_id != 0:
-      print(racks_in_threes_id)
+    if rack_id % 3 == 0:
+      badge = ""
+      [badge := el for el in racks_in_threes_list[0] 
+        if el in racks_in_threes_list[1] and
+        el in racks_in_threes_list[2]]
+      if (badge in priority):
+        tmp = priority[badge]
+      else:
+        tmp = priority[badge.lower()] + UPPER
+      total_badge_sum += tmp
       racks_in_threes.append({
         "id": racks_in_threes_id,
-        "racks": racks_in_threes_list
+        "badge": badge,
+        "value": tmp
       })
       racks_in_threes_id += 1
       racks_in_threes_list.clear()
     racks_list.clear()
   else:
     racks_list.append(rack)
-    racks_in_threes_list.append(rack)
 print(racks_in_threes)
+print(total_badge_sum)
