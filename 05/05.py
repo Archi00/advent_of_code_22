@@ -58,11 +58,13 @@ for crate in init_columns:
 for move in init_moves:
   ctr = 0
   num_crates_to_move = move[0] -1
+  popper =  num_crates_to_move
   from_column = move[1] - 1
   to_column = move[2] - 1
   while ctr <= num_crates_to_move:
-    init_columns[to_column].insert(0, init_columns[from_column].pop(0))
+    init_columns[to_column].insert(0, init_columns[from_column].pop(popper))
     ctr += 1
+    popper -= 1
 
 ret_crates = []
 for column in init_columns:
